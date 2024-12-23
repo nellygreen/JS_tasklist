@@ -10,31 +10,33 @@ window.addEventListener('load', () => {
         //Prevent page refresh when submitting form
         e.preventDefault();
 
-        //Setup submit
+        //SETUP THE SUBMIT EVENTS
         const task = input.value;
 
-        //Check for empty fields
+        //CHECK FOR EMPTY
         if (!task) {
             alert("Please fill out the task");
             return;
         }
 
-        //Create the task        
-        const task_el = document.createElement("div");
-        task_el.classList.add("task");
+        //CREATE THE TASK
+        //Here we are replacing the static div .tasks in the html
 
-        const task_content_el = document.createElement("div");
-        task_content_el.classList.add("content");
+        const task_el = document.createElement("div"); //create the 'div'
+        task_el.classList.add("task"); // add .task to the 'div'
 
-        task_el.appendChild(task_content_el);
+        const task_content_el = document.createElement("div"); //create el 'div' inside el 'task'
+        task_content_el.classList.add("content"); //add .content to the el 'div'
 
-        const task_input_el = document.createElement("input");
-        task_input_el.classList.add("text");
-        task_input_el.type = "text";
-        task_input_el.value = task;
-        task_input_el.setAttribute("readonly", "readonly");
+        task_el.appendChild(task_content_el); //insert the content into html
 
-        task_content_el.appendChild(task_input_el);
+        const task_input_el = document.createElement("input"); //create el 'input' inside 'div' .content
+        task_input_el.classList.add("text"); //add .text to the 'input' el
+        task_input_el.type = "text"; //apply parameter 'text' to the 'input' el
+        task_input_el.value = task; //apply parameter 'value' to the 'input' el
+        task_input_el.setAttribute("readonly", "readonly"); //apply parameter 'readonly' to the 'input' el
+
+        task_content_el.appendChild(task_input_el);  //insert the input into html
 
         const task_actions_el = document.createElement("div");
         task_actions_el.classList.add("actions");
@@ -56,6 +58,24 @@ window.addEventListener('load', () => {
 
         input.value = "";
 
-    })
+        //EDIT and DELETE buttons functionality
 
-})
+        task_edit_el.addEventListener('click', () => {
+            if (task_edit_el.innerText.toLowerCase() == "edit") {
+
+                task_input_el.removeAttribute("readonly");
+                task_input_el.focus();
+                task_edit_el.innerText = "Save";
+            } else {
+                task_input_el.setAttribute("readonly", "readonly");
+                task_edit_el.innerText = "Edit";
+            }
+        });
+
+        task_delete_el.addEventListener('click', () => {
+            list_el.removeChild(task_el);
+        });        
+
+    });
+
+});
